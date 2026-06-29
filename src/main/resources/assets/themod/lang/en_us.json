@@ -9,5 +9,6 @@
   "themod.configuration.items": "Item List",
   "themod.configuration.logDirtBlock": "Log Dirt Block",
   "themod.configuration.magicNumberIntroduction": "Magic Number Text",
-  "themod.configuration.magicNumber": "Magic Number"
+  "themod.configuration.magicNumber": "Magic Number",
+  "item.themod.infused_gem": "Infused Gem"
 }
