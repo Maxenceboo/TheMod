@@ -49,6 +49,6 @@ Message simple: verbe + ce qui change.
 
 - Une branche = une idee.
 - Ne modifiez pas le meme fichier a deux en meme temps.
-- Prevenez l'autre avant de toucher `build.gradle`, `gradle.properties` ou `MaxenceMod.java`.
+- Prevenez l'autre avant de toucher `build.gradle`, `gradle.properties` ou `TheMod.java`.
 - Faites un build avant de push.
 - Si Git parle de conflit, ne forcez pas: arretez-vous et reglez le fichier tranquillement.

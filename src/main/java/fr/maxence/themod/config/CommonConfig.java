@@ -1,4 +1,4 @@
-package fr.maxence.maxencemod.config;
+package fr.maxence.themod.config;
 
 import java.util.List;
 import net.minecraft.core.registries.BuiltInRegistries;

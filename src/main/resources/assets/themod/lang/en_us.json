@@ -1,0 +1,13 @@
+{
+  "itemGroup.themod": "TheMod",
+  "block.themod.example_block": "Example Block",
+  "item.themod.example_item": "Example Item",
+
+  "themod.configuration.title": "TheMod Configs",
+  "themod.configuration.section.themod.common.toml": "TheMod Configs",
+  "themod.configuration.section.themod.common.toml.title": "TheMod Configs",
+  "themod.configuration.items": "Item List",
+  "themod.configuration.logDirtBlock": "Log Dirt Block",
+  "themod.configuration.magicNumberIntroduction": "Magic Number Text",
+  "themod.configuration.magicNumber": "Magic Number"
+}

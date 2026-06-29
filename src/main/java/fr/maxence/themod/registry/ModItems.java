@@ -1,6 +1,6 @@
-package fr.maxence.maxencemod.registry;
+package fr.maxence.themod.registry;
 
-import fr.maxence.maxencemod.MaxenceMod;
+import fr.maxence.themod.TheMod;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -9,7 +9,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MaxenceMod.MODID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(TheMod.MODID);
 
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(
             "example_block",

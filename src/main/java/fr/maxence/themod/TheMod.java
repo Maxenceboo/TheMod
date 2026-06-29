@@ -1,10 +1,10 @@
-package fr.maxence.maxencemod;
+package fr.maxence.themod;
 
 import com.mojang.logging.LogUtils;
-import fr.maxence.maxencemod.config.CommonConfig;
-import fr.maxence.maxencemod.registry.ModBlocks;
-import fr.maxence.maxencemod.registry.ModCreativeTabs;
-import fr.maxence.maxencemod.registry.ModItems;
+import fr.maxence.themod.config.CommonConfig;
+import fr.maxence.themod.registry.ModBlocks;
+import fr.maxence.themod.registry.ModCreativeTabs;
+import fr.maxence.themod.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
@@ -18,12 +18,12 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
 
-@Mod(MaxenceMod.MODID)
-public class MaxenceMod {
-    public static final String MODID = "maxencemod";
+@Mod(TheMod.MODID)
+public class TheMod {
+    public static final String MODID = "themod";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public MaxenceMod(IEventBus modEventBus, ModContainer modContainer) {
+    public TheMod(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
 
@@ -36,7 +36,7 @@ public class MaxenceMod {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        LOGGER.info("Maxence Mod common setup");
+        LOGGER.info("TheMod common setup");
 
         if (CommonConfig.LOG_DIRT_BLOCK.getAsBoolean()) {
             LOGGER.info("Dirt block: {}", BuiltInRegistries.BLOCK.getKey(Blocks.DIRT));
@@ -54,6 +54,6 @@ public class MaxenceMod {
 
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
-        LOGGER.info("Maxence Mod server starting");
+        LOGGER.info("TheMod server starting");
     }
 }

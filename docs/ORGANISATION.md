@@ -9,9 +9,9 @@ Le but est simple: chaque type de fichier a sa place. Si vous ne savez pas ou me
 |-- docs/
 |-- src/
 |   `-- main/
-|       |-- java/fr/maxence/maxencemod/
-|       |-- resources/assets/maxencemod/
-|       |-- resources/data/maxencemod/
+|       |-- java/fr/maxence/themod/
+|       |-- resources/assets/themod/
+|       |-- resources/data/themod/
 |       `-- templates/META-INF/
 |-- build.gradle
 |-- gradle.properties
@@ -21,8 +21,8 @@ Le but est simple: chaque type de fichier a sa place. Si vous ne savez pas ou me
 ## Code Java
 
 ```text
-src/main/java/fr/maxence/maxencemod/
-|-- MaxenceMod.java
+src/main/java/fr/maxence/themod/
+|-- TheMod.java
 |-- block/
 |-- client/
 |   |-- model/
@@ -35,7 +35,7 @@ src/main/java/fr/maxence/maxencemod/
 `-- world/
 ```
 
-- `MaxenceMod.java`: point d'entree du mod. On evite d'y ajouter du contenu directement.
+- `TheMod.java`: point d'entree du mod. On evite d'y ajouter du contenu directement.
 - `block/`: classes Java speciales pour les blocs avec comportement custom.
 - `client/`: code qui concerne uniquement l'affichage cote client.
 - `client/model/`: modeles Java exportes par Blockbench pour les mobs ou entites animees.
@@ -54,7 +54,7 @@ Regle pratique: si vous ajoutez un contenu simple, commencez presque toujours da
 Les assets sont ce que le client Minecraft affiche ou joue: textures, modeles, traductions, sons.
 
 ```text
-src/main/resources/assets/maxencemod/
+src/main/resources/assets/themod/
 |-- lang/
 |-- blockstates/
 |-- models/
@@ -82,14 +82,14 @@ src/main/resources/assets/maxencemod/
 - `textures/particle/`: textures de particules.
 - `sounds/`: fichiers sons, souvent en `.ogg`.
 
-Les fichiers Blockbench `.bbmodel` peuvent rester dans `src/main/resources/assets/maxencemod/models/`, mais ils ne seront pas mis dans le `.jar` final.
+Les fichiers Blockbench `.bbmodel` peuvent rester dans `src/main/resources/assets/themod/models/`, mais ils ne seront pas mis dans le `.jar` final.
 
 ## Data: gameplay
 
 Les data files changent le comportement du jeu: recettes, loot, tags, generation de monde.
 
 ```text
-src/main/resources/data/maxencemod/
+src/main/resources/data/themod/
 |-- recipe/
 |-- loot_table/
 |   |-- blocks/

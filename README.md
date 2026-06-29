@@ -1,4 +1,4 @@
-# Maxence Mod
+# TheMod
 
 Base de mod Minecraft avec NeoForge et ModDevGradle.
 
@@ -23,8 +23,8 @@ Ouvre ce dossier comme projet Gradle. Au premier import, Gradle telecharge Minec
 ## Fichiers importants
 
 - `gradle.properties`: nom, version et identifiant du mod.
-- `src/main/java/fr/maxence/maxencemod`: code Java du mod.
-- `src/main/resources/assets/maxencemod`: traductions, textures et modeles.
+- `src/main/java/fr/maxence/themod`: code Java du mod.
+- `src/main/resources/assets/themod`: traductions, textures et modeles.
 - `src/main/templates/META-INF/neoforge.mods.toml`: metadata generee du mod.
 
 ## Organisation d'equipe
