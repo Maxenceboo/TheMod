@@ -1,6 +1,7 @@
 package fr.themod.registry;
 
 import fr.themod.TheMod;
+import fr.themod.item.InfusedGemItem;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -23,6 +24,11 @@ public final class ModItems {
                     .nutrition(1)
                     .saturationModifier(2f)
                     .build())
+    );
+
+    public static final DeferredItem<Item> INFUSED_GEM = ITEMS.registerItem(
+            "infused_gem",
+            properties -> new InfusedGemItem(properties.stacksTo(1))
     );
 
     private ModItems() {

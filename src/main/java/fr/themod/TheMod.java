@@ -5,6 +5,7 @@ import fr.themod.config.CommonConfig;
 import fr.themod.registry.ModBlocks;
 import fr.themod.registry.ModCreativeTabs;
 import fr.themod.registry.ModItems;
+import fr.themod.registry.ModRecipeSerializers;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;
@@ -29,6 +30,7 @@ public class TheMod {
 
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModRecipeSerializers.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
