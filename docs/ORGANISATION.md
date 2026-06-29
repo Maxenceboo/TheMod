@@ -9,7 +9,7 @@ Le but est simple: chaque type de fichier a sa place. Si vous ne savez pas ou me
 |-- docs/
 |-- src/
 |   `-- main/
-|       |-- java/fr/maxence/themod/
+|       |-- java/fr/themod/
 |       |-- resources/assets/themod/
 |       |-- resources/data/themod/
 |       `-- templates/META-INF/
@@ -21,7 +21,7 @@ Le but est simple: chaque type de fichier a sa place. Si vous ne savez pas ou me
 ## Code Java
 
 ```text
-src/main/java/fr/maxence/themod/
+src/main/java/fr/themod/
 |-- TheMod.java
 |-- block/
 |-- client/

@@ -1,6 +1,6 @@
-package fr.maxence.themod.client;
+package fr.themod.client;
 
-import fr.maxence.themod.TheMod;
+import fr.themod.TheMod;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -23,7 +23,7 @@ Ouvre ce dossier comme projet Gradle. Au premier import, Gradle telecharge Minec
 ## Fichiers importants
 
 - `gradle.properties`: nom, version et identifiant du mod.
-- `src/main/java/fr/maxence/themod`: code Java du mod.
+- `src/main/java/fr/themod`: code Java du mod.
 - `src/main/resources/assets/themod`: traductions, textures et modeles.
 - `src/main/templates/META-INF/neoforge.mods.toml`: metadata generee du mod.
 

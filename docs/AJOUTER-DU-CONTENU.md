@@ -4,7 +4,7 @@ Cette page sert de checklist pour ajouter du contenu petit a petit.
 
 ## Ajouter un item simple
 
-1. Declarer l'item dans `src/main/java/fr/maxence/themod/registry/ModItems.java`.
+1. Declarer l'item dans `src/main/java/fr/themod/registry/ModItems.java`.
 2. L'ajouter dans l'onglet creatif dans `ModCreativeTabs.java`.
 3. Ajouter son nom dans `src/main/resources/assets/themod/lang/en_us.json`.
 4. Ajouter son modele JSON dans `src/main/resources/assets/themod/models/item/`.
@@ -57,7 +57,7 @@ Cette page sert de checklist pour ajouter du contenu petit a petit.
 ## Noms a respecter
 
 - Mod ID: `themod`
-- Package Java: `fr.maxence.themod`
+- Package Java: `fr.themod`
 - Identifiants: uniquement minuscules, chiffres et underscores.
 
 Exemples corrects:

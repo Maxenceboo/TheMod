@@ -1,6 +1,6 @@
-package fr.maxence.themod.registry;
+package fr.themod.registry;
 
-import fr.maxence.themod.TheMod;
+import fr.themod.TheMod;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

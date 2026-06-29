@@ -1,10 +1,10 @@
-package fr.maxence.themod;
+package fr.themod;
 
 import com.mojang.logging.LogUtils;
-import fr.maxence.themod.config.CommonConfig;
-import fr.maxence.themod.registry.ModBlocks;
-import fr.maxence.themod.registry.ModCreativeTabs;
-import fr.maxence.themod.registry.ModItems;
+import fr.themod.config.CommonConfig;
+import fr.themod.registry.ModBlocks;
+import fr.themod.registry.ModCreativeTabs;
+import fr.themod.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.bus.api.IEventBus;

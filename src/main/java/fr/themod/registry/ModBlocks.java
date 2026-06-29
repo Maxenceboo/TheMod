@@ -1,6 +1,6 @@
-package fr.maxence.themod.registry;
+package fr.themod.registry;
 
-import fr.maxence.themod.TheMod;
+import fr.themod.TheMod;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;

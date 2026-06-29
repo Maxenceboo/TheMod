@@ -1,6 +1,6 @@
-package fr.maxence.themod.registry;
+package fr.themod.registry;
 
-import fr.maxence.themod.TheMod;
+import fr.themod.TheMod;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
