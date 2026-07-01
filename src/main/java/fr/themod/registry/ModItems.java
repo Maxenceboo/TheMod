@@ -31,6 +31,11 @@ public final class ModItems {
             properties -> new InfusedGemItem(properties.stacksTo(1))
     );
 
+    public static final DeferredItem<BlockItem> GRASSY_SAND_BLOCK = ITEMS.registerSimpleBlockItem(
+            "grassy_sand_block",
+            ModBlocks.GRASSY_SAND_BLOCK
+    );
+
     private ModItems() {
     }
 
