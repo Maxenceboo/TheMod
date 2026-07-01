@@ -18,11 +18,12 @@ public final class ModCreativeTabs {
             () -> CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.themod"))
                     .withTabsBefore(CreativeModeTabs.COMBAT)
-                    .icon(() -> ModItems.EXAMPLE_ITEM.get().getDefaultInstance())
+                    .icon(() -> ModItems.EXAMPLE_BLOCK_ITEM.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.EXAMPLE_ITEM.get());
                         output.accept(ModItems.EXAMPLE_BLOCK_ITEM.get());
                         output.accept(ModItems.INFUSED_GEM.get());
+                        output.accept(ModItems.GRASSY_SAND_BLOCK.get());
                     })
                     .build()
     );
