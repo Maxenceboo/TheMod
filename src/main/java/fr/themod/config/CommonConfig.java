@@ -24,6 +24,10 @@ public final class CommonConfig {
             .comment("A list of items to log on common setup.")
             .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), () -> "", CommonConfig::validateItemName);
 
+    public static final ModConfigSpec.BooleanValue AUTO_REFILL_BUILDING_STACKS = BUILDER
+            .comment("Automatically moves the next matching block stack into your hand when the current building stack runs out.")
+            .define("autoRefillBuildingStacks", true);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     private CommonConfig() {
