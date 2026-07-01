@@ -11,6 +11,7 @@
   "themod.configuration.magicNumberIntroduction": "Magic Number Text",
   "themod.configuration.magicNumber": "Magic Number",
   "block.themod.grassy_sand_block": "Grassy Sand Block",
+  "themod.configuration.autoRefillBuildingStacks": "Auto-Refill Building Stacks",
   "item.themod.infused_gem": "Infused Gem"
 
 }
