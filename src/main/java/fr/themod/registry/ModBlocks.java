@@ -2,6 +2,7 @@ package fr.themod.registry;
 
 import fr.themod.block.GrassySandBlock;
 import fr.themod.TheMod;
+import fr.themod.block.WornGrassBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.bus.api.IEventBus;
@@ -19,6 +20,11 @@ public final class ModBlocks {
     public static final DeferredBlock<GrassySandBlock> GRASSY_SAND_BLOCK = BLOCKS.registerBlock(
             "grassy_sand_block",
             GrassySandBlock::new
+    );
+
+    public static final DeferredBlock<WornGrassBlock> WORN_GRASS = BLOCKS.registerBlock(
+            "worn_grass",
+            WornGrassBlock::new
     );
 
     private ModBlocks() {

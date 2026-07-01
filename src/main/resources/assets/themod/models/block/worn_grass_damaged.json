@@ -1,0 +1,6 @@
+{
+  "parent": "themod:block/worn_grass_light",
+  "textures": {
+    "top_overlay": "themod:block/worn_grass_damaged_overlay"
+  }
+}

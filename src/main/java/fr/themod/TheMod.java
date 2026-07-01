@@ -3,6 +3,7 @@ package fr.themod;
 import com.mojang.logging.LogUtils;
 import fr.themod.config.CommonConfig;
 import fr.themod.event.BuildingAutoRefillHandler;
+import fr.themod.event.GrassWearHandler;
 import fr.themod.registry.ModBlocks;
 import fr.themod.registry.ModCreativeTabs;
 import fr.themod.registry.ModItems;
@@ -36,6 +37,7 @@ public class TheMod {
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new BuildingAutoRefillHandler());
+        NeoForge.EVENT_BUS.register(new GrassWearHandler());
         modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }
 

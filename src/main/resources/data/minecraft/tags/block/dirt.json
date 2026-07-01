@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "themod:grassy_sand_block"
+    "themod:grassy_sand_block",
+    "themod:worn_grass"
   ]
 }

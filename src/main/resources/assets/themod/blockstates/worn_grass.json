@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "wear=1,variant=0": {"model": "themod:block/worn_grass_light"},
+    "wear=1,variant=1": {"model": "themod:block/worn_grass_light", "y": 90},
+    "wear=1,variant=2": {"model": "themod:block/worn_grass_light", "y": 180},
+    "wear=1,variant=3": {"model": "themod:block/worn_grass_light", "y": 270},
+
+    "wear=2,variant=0": {"model": "themod:block/worn_grass_medium"},
+    "wear=2,variant=1": {"model": "themod:block/worn_grass_medium", "y": 90},
+    "wear=2,variant=2": {"model": "themod:block/worn_grass_medium", "y": 180},
+    "wear=2,variant=3": {"model": "themod:block/worn_grass_medium", "y": 270},
+
+    "wear=3,variant=0": {"model": "themod:block/worn_grass_heavy"},
+    "wear=3,variant=1": {"model": "themod:block/worn_grass_heavy", "y": 90},
+    "wear=3,variant=2": {"model": "themod:block/worn_grass_heavy", "y": 180},
+    "wear=3,variant=3": {"model": "themod:block/worn_grass_heavy", "y": 270},
+
+    "wear=4,variant=0": {"model": "themod:block/worn_grass_damaged"},
+    "wear=4,variant=1": {"model": "themod:block/worn_grass_damaged", "y": 90},
+    "wear=4,variant=2": {"model": "themod:block/worn_grass_damaged", "y": 180},
+    "wear=4,variant=3": {"model": "themod:block/worn_grass_damaged", "y": 270},
+
+    "wear=5,variant=0": {"model": "themod:block/worn_grass_path"},
+    "wear=5,variant=1": {"model": "themod:block/worn_grass_path", "y": 90},
+    "wear=5,variant=2": {"model": "themod:block/worn_grass_path", "y": 180},
+    "wear=5,variant=3": {"model": "themod:block/worn_grass_path", "y": 270}
+  }
+}
