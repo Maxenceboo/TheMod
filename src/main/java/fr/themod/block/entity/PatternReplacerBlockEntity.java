@@ -1,11 +1,13 @@
 package fr.themod.block.entity;
 
+import fr.themod.block.PatternReplacerBlock;
 import fr.themod.registry.ModBlockEntities;
 import fr.themod.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -26,21 +28,28 @@ import java.util.Set;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import java.util.UUID;
 import net.minecraft.server.level.ServerPlayer;
 
-public class PatternReplacerBlockEntity extends BlockEntity implements Container {
+public class PatternReplacerBlockEntity extends BlockEntity implements WorldlyContainer {
     public static final int PALETTE_START = 0;
     public static final int PALETTE_END = 8;
     public static final int FUEL_SLOT = 9;
     public static final int SLOT_COUNT = 10;
     private static final int MAX_MARKERS = 2048;
+    private static final int[] PALETTE_SLOTS = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    private static final int[] FUEL_SLOTS = {FUEL_SLOT};
+    private static final int[] ALL_SLOTS = {0, 1, 2, 3, 4, 5, 6, 7, 8, FUEL_SLOT};
 
     private int outlineTicks;
     private UUID outlineViewer;
     private int placeDelay;
     private boolean replacing;
+    private BlockPos currentMarker;
+    private int currentPaletteSlot = -1;
+    private BlockState currentPlacedState;
 
     private final Queue<BlockPos> pendingMarkers = new ArrayDeque<>();
     private final List<BlockPos> selectedMarkers = new ArrayList<>();
@@ -54,6 +63,8 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
         if (level.isClientSide()) {
             return;
         }
+
+        blockEntity.syncActiveState(level);
 
         if (blockEntity.outlineTicks > 0) {
             blockEntity.spawnSelectionParticles(level);
@@ -133,6 +144,37 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
     }
 
     @Override
+    public int[] getSlotsForFace(Direction side) {
+        if (side == Direction.UP) {
+            return PALETTE_SLOTS;
+        }
+
+        if (side == Direction.DOWN) {
+            return ALL_SLOTS;
+        }
+
+        return FUEL_SLOTS;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, Direction side) {
+        if (side == Direction.UP) {
+            return slot >= PALETTE_START && slot <= PALETTE_END && this.canPlaceItem(slot, stack);
+        }
+
+        if (side != Direction.DOWN) {
+            return slot == FUEL_SLOT && this.canPlaceItem(slot, stack);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return side == Direction.DOWN;
+    }
+
+    @Override
     public boolean stillValid(Player player) {
         return Container.stillValidBlockEntity(this, player);
     }
@@ -153,16 +195,64 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
         this.selectedMarkers.clear();
         this.selectedMarkers.addAll(this.detectConnectedMarkers(level));
         this.pendingMarkers.clear();
-        this.pendingMarkers.addAll(this.selectedMarkers);
         this.outlineTicks = 20 * 5;
         this.outlineViewer = player.getUUID();
-        this.placeDelay = 0;
-        this.replacing = !this.pendingMarkers.isEmpty();
+        this.currentMarker = null;
+        this.currentPaletteSlot = -1;
+        this.currentPlacedState = null;
         this.setChanged();
 
         player.sendSystemMessage(Component.literal(
                 "Markers detectes: " + this.selectedMarkers.size()
         ));
+    }
+
+    public void activate(Player player) {
+        Level level = this.getLevel();
+
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+
+        this.selectedMarkers.clear();
+        this.selectedMarkers.addAll(this.detectConnectedMarkers(level));
+        this.pendingMarkers.clear();
+        this.pendingMarkers.addAll(this.selectedMarkers);
+        this.outlineViewer = player.getUUID();
+        this.outlineTicks = 20 * 5;
+        this.placeDelay = 0;
+        this.currentMarker = null;
+        this.currentPaletteSlot = -1;
+        this.currentPlacedState = null;
+
+        if (this.pendingMarkers.isEmpty()) {
+            this.replacing = false;
+            this.setActive(level, false);
+            player.sendSystemMessage(Component.literal("Aucun marker connecte."));
+            this.setChanged();
+            return;
+        }
+
+        if (this.findRandomPaletteSlot(level) == -1) {
+            this.replacing = false;
+            this.setActive(level, false);
+            player.sendSystemMessage(Component.literal("Ajoute des blocs dans la palette avant de lancer."));
+            this.setChanged();
+            return;
+        }
+
+        if (!this.hasFuel()) {
+            this.replacing = false;
+            this.setActive(level, false);
+            player.sendSystemMessage(Component.literal("Ajoute du charbon avant de lancer."));
+            this.setChanged();
+            return;
+        }
+
+        this.replacing = true;
+        this.setActive(level, true);
+        player.sendSystemMessage(Component.literal("Pattern Replacer lance: " + this.pendingMarkers.size() + " markers."));
+        this.setChanged();
     }
 
     private List<BlockPos> detectConnectedMarkers(Level level) {
@@ -201,23 +291,34 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
     }
 
     private void tickReplacement(Level level) {
+        if (this.currentMarker == null && !this.prepareNextReplacement(level)) {
+            return;
+        }
+
         if (this.placeDelay > 0) {
+            this.spawnCurrentMarkerFocus(level);
             this.placeDelay--;
             return;
         }
 
+        this.placeCurrentMarker(level);
+    }
+
+    private boolean prepareNextReplacement(Level level) {
         if (!this.hasFuel()) {
             this.replacing = false;
+            this.setActive(level, false);
             this.setChanged();
-            return;
+            return false;
         }
 
         int paletteSlot = this.findRandomPaletteSlot(level);
 
         if (paletteSlot == -1) {
             this.replacing = false;
+            this.setActive(level, false);
             this.setChanged();
-            return;
+            return false;
         }
 
         while (!this.pendingMarkers.isEmpty()) {
@@ -231,16 +332,58 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
             BlockItem blockItem = (BlockItem) paletteStack.getItem();
             BlockState placedState = blockItem.getBlock().defaultBlockState();
 
-            level.setBlock(markerPos, placedState, Block.UPDATE_ALL);
-            paletteStack.shrink(1);
-            this.consumeFuelOnce();
+            this.currentMarker = markerPos;
+            this.currentPaletteSlot = paletteSlot;
+            this.currentPlacedState = placedState;
             this.placeDelay = calculatePlaceDelay(level, markerPos, placedState);
+            this.setChanged();
+            return true;
+        }
+
+        this.replacing = false;
+        this.setActive(level, false);
+        this.setChanged();
+        return false;
+    }
+
+    private void placeCurrentMarker(Level level) {
+        if (this.currentMarker == null || this.currentPlacedState == null || this.currentPaletteSlot == -1) {
+            this.clearCurrentReplacement();
+            return;
+        }
+
+        if (!this.hasFuel()) {
+            this.replacing = false;
+            this.setActive(level, false);
+            this.clearCurrentReplacement();
             this.setChanged();
             return;
         }
 
-        this.replacing = false;
+        ItemStack paletteStack = this.items.get(this.currentPaletteSlot);
+
+        if (paletteStack.isEmpty() || !(paletteStack.getItem() instanceof BlockItem)) {
+            this.clearCurrentReplacement();
+            this.setChanged();
+            return;
+        }
+
+        if (isReplacementMarker(level, this.currentMarker)) {
+            this.spawnReplacementLink(level, this.currentMarker);
+            level.setBlock(this.currentMarker, this.currentPlacedState, Block.UPDATE_ALL);
+            paletteStack.shrink(1);
+            this.consumeFuelOnce();
+        }
+
+        this.clearCurrentReplacement();
         this.setChanged();
+    }
+
+    private void clearCurrentReplacement() {
+        this.currentMarker = null;
+        this.currentPaletteSlot = -1;
+        this.currentPlacedState = null;
+        this.placeDelay = 0;
     }
 
     private boolean hasFuel() {
@@ -280,16 +423,72 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
         return Math.max(4, (int) Math.ceil(destroySpeed * 20.0f));
     }
 
-    private void spawnSelectionParticles(Level level) {
-        if (!(level instanceof ServerLevel serverLevel)
-                || this.selectedMarkers.isEmpty()
-                || this.outlineViewer == null) {
+    private void syncActiveState(Level level) {
+        this.setActive(level, this.replacing);
+    }
+
+    private void setActive(Level level, boolean active) {
+        BlockState state = level.getBlockState(this.worldPosition);
+
+        if (state.hasProperty(PatternReplacerBlock.ACTIVE)
+                && state.getValue(PatternReplacerBlock.ACTIVE) != active) {
+            level.setBlock(
+                    this.worldPosition,
+                    state.setValue(PatternReplacerBlock.ACTIVE, active),
+                    Block.UPDATE_ALL
+            );
+        }
+    }
+
+    private void spawnCurrentMarkerFocus(Level level) {
+        ServerPlayer viewer = this.getOutlineViewer(level);
+
+        if (viewer == null || this.currentMarker == null || !isReplacementMarker(level, this.currentMarker)) {
             return;
         }
 
-        ServerPlayer viewer = serverLevel.getServer().getPlayerList().getPlayer(this.outlineViewer);
+        double x = this.currentMarker.getX();
+        double y = this.currentMarker.getY();
+        double z = this.currentMarker.getZ();
+        double inset = 0.08;
+
+        drawLine(viewer, x + inset, y + 1.0 + inset, z + inset, x + 1.0 - inset, y + 1.0 + inset, z + inset, ParticleTypes.ELECTRIC_SPARK);
+        drawLine(viewer, x + inset, y + 1.0 + inset, z + 1.0 - inset, x + 1.0 - inset, y + 1.0 + inset, z + 1.0 - inset, ParticleTypes.ELECTRIC_SPARK);
+        drawLine(viewer, x + inset, y + 1.0 + inset, z + inset, x + inset, y + 1.0 + inset, z + 1.0 - inset, ParticleTypes.ELECTRIC_SPARK);
+        drawLine(viewer, x + 1.0 - inset, y + 1.0 + inset, z + inset, x + 1.0 - inset, y + 1.0 + inset, z + 1.0 - inset, ParticleTypes.ELECTRIC_SPARK);
+    }
+
+    private void spawnReplacementLink(Level level, BlockPos markerPos) {
+        ServerPlayer viewer = this.getOutlineViewer(level);
 
         if (viewer == null) {
+            return;
+        }
+
+        drawLine(
+                viewer,
+                this.worldPosition.getX() + 0.5,
+                this.worldPosition.getY() + 0.5,
+                this.worldPosition.getZ() + 0.5,
+                markerPos.getX() + 0.5,
+                markerPos.getY() + 0.5,
+                markerPos.getZ() + 0.5,
+                ParticleTypes.ELECTRIC_SPARK
+        );
+    }
+
+    private ServerPlayer getOutlineViewer(Level level) {
+        if (!(level instanceof ServerLevel serverLevel) || this.outlineViewer == null) {
+            return null;
+        }
+
+        return serverLevel.getServer().getPlayerList().getPlayer(this.outlineViewer);
+    }
+
+    private void spawnSelectionParticles(Level level) {
+        ServerPlayer viewer = this.getOutlineViewer(level);
+
+        if (viewer == null || this.selectedMarkers.isEmpty()) {
             return;
         }
 
@@ -373,6 +572,19 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
             double y2,
             double z2
     ) {
+        drawLine(viewer, x1, y1, z1, x2, y2, z2, ParticleTypes.END_ROD);
+    }
+
+    private static void drawLine(
+            ServerPlayer viewer,
+            double x1,
+            double y1,
+            double z1,
+            double x2,
+            double y2,
+            double z2,
+            ParticleOptions particle
+    ) {
         double step = 0.25;
         double distance = Math.sqrt(
                 Math.pow(x2 - x1, 2)
@@ -390,7 +602,7 @@ public class PatternReplacerBlockEntity extends BlockEntity implements Container
 
             viewer.level().sendParticles(
                     viewer,
-                    ParticleTypes.END_ROD,
+                    particle,
                     true,
                     false,
                     x,

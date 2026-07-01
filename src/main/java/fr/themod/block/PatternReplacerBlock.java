@@ -3,30 +3,34 @@ package fr.themod.block;
 import com.mojang.serialization.MapCodec;
 import fr.themod.block.entity.PatternReplacerBlockEntity;
 import fr.themod.registry.ModBlockEntities;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
 import fr.themod.screen.PatternReplacerMenu;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 public class PatternReplacerBlock extends BaseEntityBlock {
     public static final MapCodec<PatternReplacerBlock> CODEC = simpleCodec(PatternReplacerBlock::new);
+    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public PatternReplacerBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(ACTIVE, false));
     }
 
     @Override
@@ -42,6 +46,11 @@ public class PatternReplacerBlock extends BaseEntityBlock {
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(ACTIVE);
     }
 
     @Override
@@ -65,6 +74,14 @@ public class PatternReplacerBlock extends BaseEntityBlock {
             Player player,
             BlockHitResult hitResult
     ) {
+        if (player.isSecondaryUseActive()) {
+            if (!level.isClientSide()) {
+                activate(level, pos, player);
+            }
+
+            return InteractionResult.SUCCESS_SERVER;
+        }
+
         if (!level.isClientSide()) {
             openMenu(level, pos, player);
         }
@@ -83,7 +100,11 @@ public class PatternReplacerBlock extends BaseEntityBlock {
             BlockHitResult hitResult
     ) {
         if (player.isSecondaryUseActive()) {
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            if (!level.isClientSide()) {
+                activate(level, pos, player);
+            }
+
+            return InteractionResult.SUCCESS_SERVER;
         }
 
         if (!level.isClientSide()) {
@@ -107,5 +128,11 @@ public class PatternReplacerBlock extends BaseEntityBlock {
                 ),
                 Component.translatable("block.themod.pattern_replacer")
         ));
+    }
+
+    private static void activate(Level level, BlockPos pos, Player player) {
+        if (level.getBlockEntity(pos) instanceof PatternReplacerBlockEntity blockEntity) {
+            blockEntity.activate(player);
+        }
     }
 }
