@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "themod:block/pattern_replacer"
+    }
+  }
+}

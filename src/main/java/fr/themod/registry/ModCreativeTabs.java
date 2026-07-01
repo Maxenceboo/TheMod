@@ -23,6 +23,8 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.EXAMPLE_ITEM.get());
                         output.accept(ModItems.EXAMPLE_BLOCK_ITEM.get());
                         output.accept(ModItems.INFUSED_GEM.get());
+                        output.accept(ModItems.REPLACEMENT_MARKER_ITEM.get());
+                        output.accept(ModItems.PATTERN_REPLACER_ITEM.get());
                     })
                     .build()
     );

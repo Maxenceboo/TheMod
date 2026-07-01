@@ -18,6 +18,8 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import org.slf4j.Logger;
+import fr.themod.registry.ModBlockEntities;
+import fr.themod.registry.ModMenuTypes;
 
 @Mod(TheMod.MODID)
 public class TheMod {
@@ -30,6 +32,8 @@ public class TheMod {
 
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
 
