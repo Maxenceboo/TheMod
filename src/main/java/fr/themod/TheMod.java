@@ -37,6 +37,7 @@ public class TheMod {
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new BuildingAutoRefillHandler());
+        // Server-side grass wear is event driven so vanilla grass can turn into worn grass naturally.
         NeoForge.EVENT_BUS.register(new GrassWearHandler());
         modContainer.registerConfig(ModConfig.Type.COMMON, CommonConfig.SPEC);
     }

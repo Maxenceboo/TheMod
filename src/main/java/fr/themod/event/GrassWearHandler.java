@@ -53,6 +53,7 @@ public final class GrassWearHandler {
     public void onEntityTick(EntityTickEvent.Post event) {
         Entity entity = event.getEntity();
 
+        // Only the logical server mutates terrain; the client receives normal block updates.
         if (!(entity instanceof LivingEntity livingEntity)
                 || entity.level().isClientSide()
                 || !entity.onGround()
@@ -260,6 +261,7 @@ public final class GrassWearHandler {
     }
 
     private boolean canNaturallyRegrow(ServerLevel level, BlockPos pos, BlockState state) {
+        // Recently used blocks keep their damage longer, while light and water make recovery possible.
         if (level.getMaxLocalRawBrightness(pos.above()) < 9) {
             return false;
         }

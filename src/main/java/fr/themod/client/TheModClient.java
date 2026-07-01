@@ -31,6 +31,7 @@ public class TheModClient {
 
     @SubscribeEvent
     static void registerBlockTintSources(RegisterColorHandlersEvent.BlockTintSources event) {
+        // The worn grass overlay reuses vanilla biome grass tint instead of hard-coded green pixels.
         event.register(List.of(BlockTintSources.grassBlock()), ModBlocks.WORN_GRASS.get());
     }
 }

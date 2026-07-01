@@ -22,6 +22,7 @@ public final class ModBlocks {
             GrassySandBlock::new
     );
 
+    // Internal world-state block: no BlockItem is registered because players should pick/place vanilla grass.
     public static final DeferredBlock<WornGrassBlock> WORN_GRASS = BLOCKS.registerBlock(
             "worn_grass",
             WornGrassBlock::new

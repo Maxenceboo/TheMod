@@ -17,6 +17,7 @@ import net.minecraft.world.level.material.MapColor;
 public class WornGrassBlock extends Block {
     public static final MapCodec<WornGrassBlock> CODEC = simpleCodec(WornGrassBlock::new);
     public static final IntegerProperty WEAR = IntegerProperty.create("wear", 1, 5);
+    // Variant only changes the model rotation, while wear controls the actual damage stage.
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 3);
 
     public WornGrassBlock(BlockBehaviour.Properties properties) {
@@ -43,6 +44,7 @@ public class WornGrassBlock extends Block {
 
     @Override
     public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state, boolean includeData, Player player) {
+        // Creative pick-block should give the real grass block, not this hidden state block.
         return new ItemStack(Blocks.GRASS_BLOCK);
     }
 }

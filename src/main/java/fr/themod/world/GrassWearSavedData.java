@@ -23,6 +23,7 @@ public final class GrassWearSavedData extends SavedData {
             PRESSURE_ENTRY_CODEC.listOf().optionalFieldOf("pressure", List.of()).forGetter(GrassWearSavedData::entries)
     ).apply(instance, GrassWearSavedData::new));
 
+    // Saved per dimension so each world keeps its own partial footsteps between server restarts.
     public static final SavedDataType<GrassWearSavedData> TYPE = new SavedDataType<>(
             Identifier.fromNamespaceAndPath(TheMod.MODID, "grass_wear_pressure"),
             GrassWearSavedData::new,
