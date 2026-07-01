@@ -18,8 +18,6 @@ public class GrassySandBlock extends FallingBlock {
                 .sound(SoundType.SAND)
                 .instrument(NoteBlockInstrument.SNARE)
                 .destroyTime(0.5F)
-
-
         );
     }
 
@@ -30,8 +28,6 @@ public class GrassySandBlock extends FallingBlock {
 
     @Override
     public int getDustColor(BlockState state, BlockGetter level, BlockPos pos) {
-        //0xDBCE9E sable
-        //0x7FA255 herbe
         return 0xCDD828;
     }
 }

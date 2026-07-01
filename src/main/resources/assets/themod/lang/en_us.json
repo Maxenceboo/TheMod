@@ -10,7 +10,7 @@
   "themod.configuration.logDirtBlock": "Log Dirt Block",
   "themod.configuration.magicNumberIntroduction": "Magic Number Text",
   "themod.configuration.magicNumber": "Magic Number",
-  "item.themod.grassy_sand_block" : "Grassy Sand Block",
+  "block.themod.grassy_sand_block": "Grassy Sand Block",
   "item.themod.infused_gem": "Infused Gem"
 
 }
