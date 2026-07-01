@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "themod:item/grassy_sand_block"
+  }
+}

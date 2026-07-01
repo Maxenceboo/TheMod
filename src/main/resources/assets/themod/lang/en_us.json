@@ -10,7 +10,10 @@
   "themod.configuration.logDirtBlock": "Log Dirt Block",
   "themod.configuration.magicNumberIntroduction": "Magic Number Text",
   "themod.configuration.magicNumber": "Magic Number",
+  "themod.configuration.autoRefillBuildingStacks": "Auto-Refill Building Stacks",
   "item.themod.infused_gem": "Infused Gem",
   "block.themod.replacement_marker": "Replacement Marker",
-  "block.themod.pattern_replacer": "Pattern Replacer"
+  "block.themod.pattern_replacer": "Pattern Replacer",
+  "block.themod.grassy_sand_block": "Grassy Sand Block",
+  "item.themod.grassy_sand_block": "Grassy Sand Block"
 }

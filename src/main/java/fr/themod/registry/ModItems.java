@@ -41,6 +41,11 @@ public final class ModItems {
             ModBlocks.PATTERN_REPLACER
     );
 
+    public static final DeferredItem<BlockItem> GRASSY_SAND_BLOCK = ITEMS.registerSimpleBlockItem(
+            "grassy_sand_block",
+            ModBlocks.GRASSY_SAND_BLOCK
+    );
+
     private ModItems() {
     }
 

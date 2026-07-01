@@ -1,5 +1,6 @@
 package fr.themod.registry;
 
+import fr.themod.block.GrassySandBlock;
 import fr.themod.TheMod;
 import fr.themod.block.PatternReplacerBlock;
 import fr.themod.block.ReplacementMarkerBlock;
@@ -35,6 +36,11 @@ public final class ModBlocks {
                     .strength(3.5f, 6.0f)
                     .requiresCorrectToolForDrops()
                     .sound(SoundType.METAL)
+    );
+
+    public static final DeferredBlock<GrassySandBlock> GRASSY_SAND_BLOCK = BLOCKS.registerBlock(
+            "grassy_sand_block",
+            GrassySandBlock::new
     );
 
     private ModBlocks() {
