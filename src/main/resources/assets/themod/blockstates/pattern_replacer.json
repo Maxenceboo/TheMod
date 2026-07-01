@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "themod:block/pattern_replacer"
+    },
+    "active=true": {
+      "model": "themod:block/pattern_replacer_active"
+    }
+  }
+}

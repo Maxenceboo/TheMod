@@ -10,6 +10,9 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import fr.themod.client.screen.PatternReplacerScreen;
+import fr.themod.registry.ModMenuTypes;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 @Mod(value = TheMod.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = TheMod.MODID, value = Dist.CLIENT)
@@ -22,5 +25,10 @@ public class TheModClient {
     static void onClientSetup(FMLClientSetupEvent event) {
         TheMod.LOGGER.info("TheMod client setup");
         TheMod.LOGGER.info("Minecraft user: {}", Minecraft.getInstance().getUser().getName());
+    }
+
+    @SubscribeEvent
+    static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.PATTERN_REPLACER.get(), PatternReplacerScreen::new);
     }
 }

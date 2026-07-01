@@ -31,6 +31,16 @@ public final class ModItems {
             properties -> new InfusedGemItem(properties.stacksTo(1))
     );
 
+    public static final DeferredItem<BlockItem> REPLACEMENT_MARKER_ITEM = ITEMS.registerSimpleBlockItem(
+            "replacement_marker",
+            ModBlocks.REPLACEMENT_MARKER
+    );
+
+    public static final DeferredItem<BlockItem> PATTERN_REPLACER_ITEM = ITEMS.registerSimpleBlockItem(
+            "pattern_replacer",
+            ModBlocks.PATTERN_REPLACER
+    );
+
     public static final DeferredItem<BlockItem> GRASSY_SAND_BLOCK = ITEMS.registerSimpleBlockItem(
             "grassy_sand_block",
             ModBlocks.GRASSY_SAND_BLOCK
